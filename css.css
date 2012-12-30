@@ -1,0 +1,64 @@
+table {
+    max-width: 100%;
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.table th,
+.table td {
+    padding: 8px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+}
+
+.table th {
+    font-weight: bold;
+}
+
+.table thead th {
+    vertical-align: bottom;
+}
+
+.table tbody + tbody {
+    border-top: 2px solid #dddddd;
+}
+
+.table-bordered {
+    border: 1px solid #dddddd;
+    border-collapse: separate;
+    *border-collapse: collapse;
+    border-left: 0;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border-left: 1px solid #dddddd;
+}
+
+.pull-right {
+    float: right;
+}
+
+#invoiceItemsTable td input,
+#invoiceItemsTable td textarea{
+    width: 95%;
+}
+
+.descriptionHeader{
+    width: 60%
+}
+
+.removeHeader{
+    width: 13%;
+}
