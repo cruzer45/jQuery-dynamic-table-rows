@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Javascript Table Test</title>
+        <meta name="description" content="Javascript Table Test">
+        <meta name="author" content="Maurice Rogers">
+        <link rel="stylesheet" href="css.css" type="text/css"/>
+        <style>
+            #prot {
+                display:none;
+            }
+        </style>
+        <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+
+        <h1>jQuery Table Test</h1>
+        <hr />
+
+        <form action="#" method="post" class="form-horizontal" >
+            <fieldset class="form">
+                <table  class="table table-bordered " id="invoiceItemsTable">
+                    <thead>
+                        <tr>
+                            <th class="descriptionHeader" >Description</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th class="removeHeader">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr id="prot">
+                            <td>
+                                <input type="hidden" name="invoiceItem.id" value="-1" class="id" >
+                                <textarea rows="1" name="invoiceItems.description" class="description" placeholder="Enter the Description of the invoice Item" id="invoiceItems.description" ></textarea>
+                            </td>
+                            <td><input type="number" name="invoiceItems.quantity" value="" class="quantity" placeholder="0" id="invoiceItems.quantity" /></td>
+                            <td><input type="number" name="invoiceItems.unitPrice" value="" class="price" placeholder="0" id="invoiceItems.unitPrice" /></td>
+                            <td><button class="pull-right remove" type="button">Remove Item</button>
+                        </tr>
+
+                        <tr id="addItemRow"> 
+                            <td colspan="4">
+                                <button class="pull-right" id="btnAddRow" type="button">
+                                    Add Row
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <div class="form-actions">
+                <fieldset class="buttons">
+                    <button formmethod="post" name="create" id="btnCreate">
+                        Submit
+                    </button>
+                </fieldset>
+            </div>
+        </form>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var id = 0;//tracker for the row information
+
+                // Add button functionality
+                $("#btnAddRow").click(function() {
+                    // Get a new row based on the prototype row
+                    var prot = $("#prot").clone();
+                    //remove the prototype class and give the row its unique id.
+                    prot.attr("class", "");
+                    prot.attr("id", "");
+                    prot.find(".id").attr("value", id).attr("id", "invoiceItems[" + id +"].id").attr("name", "invoiceItems[" + id +"].id");
+                    prot.find(".description").attr("id", "invoiceItems[" + id +"].description").attr("name", "invoiceItems[" + id +"].description").attr("required","").attr("style","");
+                    prot.find(".quantity").attr("id", "invoiceItems[" + id +"].quantity").attr("name", "invoiceItems[" + id +"].quantity").attr("required","");
+                    prot.find(".price").attr("id", "invoiceItems[" + id +"].price").attr("name", "invoiceItems[" + id +"].price").attr("required","");
+                    //add the item to the table		
+                    $("#addItemRow").before(prot);
+                    id++;
+                });
+		
+                // Remove button functionality
+                $("#invoiceItemsTable button.remove").live("click", function() {
+                    if(confirm('Are you sure?')){
+                        $(this).parents("tr").find(".deleted").attr("value","true");
+                        $(this).parents("tr").hide();
+                        var desc = $(this).parents("tr").find(".description").attr("value");
+                        if (desc == ""){
+                            $(this).parents("tr").remove();
+                        }				
+                    }
+                });
+
+		
+                $("#btnCreate").on("click", function(event){
+                    //alert('button clicked');
+                    var count = $("table tbody tr").length;
+                    //alert(count);
+			
+                    //Only save the form if the user has entered at least one line item.
+                    if (count > 2)
+                    {
+                        $("#prot").remove();
+                        return true;
+                    }
+                    else{
+                        alert('Kindly add at least one invoice item.');
+                        event.stopPropagation();
+                        event.preventDefault();
+                        return false
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
